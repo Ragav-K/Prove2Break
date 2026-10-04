@@ -1,0 +1,21 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: prove2break-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: prove2break
+      POSTGRES_PASSWORD: prove2break
+      POSTGRES_DB: prove2break
+    ports:
+      - "5433:5432"
+    volumes:
+      - prove2break_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prove2break -d prove2break"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  prove2break_pgdata:
